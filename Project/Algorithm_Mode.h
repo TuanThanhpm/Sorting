@@ -13,11 +13,12 @@
 using List = std::vector<int>;
 
 struct AM{
+    //Execute suitable function based on sort method which is cmdline argument
     void Parameter_Of_Sorting(List arr,std::string sort_method);
 	double Running_time(List arr, std::string sort_method);
 
-    void Parameter_Of_Sorting_Comparison(List arr,std::string sort_method, long long int& count_compare);
-	long long int Number_Of_Comparisons(List arr, std::string sort_method);
+    void Parameter_Of_Sorting_Comparison(List arr,std::string sort_method, long int& count_compare);
+	long int Number_Of_Comparisons(List arr, std::string sort_method);
     
     void Mode(int argc, char** argv);
     void Algorithm_name(int argc, char** argv);

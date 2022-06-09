@@ -15,8 +15,8 @@ int main(int argc, char** argv) {
 
 	//am->Command_1(argc, argv);
 	//am->Command_2(argc,argv);
-	//am->Command_3(argc,argv);
-	cm->Command_4(argc,argv);
+	am->Command_3(argc,argv);
+	//cm->Command_4(argc,argv);
 	//cm->Command_5(argc,argv);
 	return 0;
 }

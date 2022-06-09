@@ -21,7 +21,7 @@ void AM::Parameter_Of_Sorting(List arr, std::string sort_method) {
 	else if (sort_method == "merge-sort")
 		return s->Merge_sort(arr, 0, n - 1);
 	else if (sort_method == "quick-sort")
-		return s->Quick_sort(arr, 0, n - 1);
+		return s->Quick_sort(arr);
 	else if (sort_method == "counting-sort")
 		return s->Counting_sort(arr, u);
 	else if (sort_method == "radix-sort")
@@ -41,7 +41,7 @@ double AM::Running_time(List arr, std::string sort_method) {
 	return duration;
 }
 
-void AM::Parameter_Of_Sorting_Comparison(List arr,std::string sort_method, long long int& count_compare){
+void AM::Parameter_Of_Sorting_Comparison(List arr,std::string sort_method, long int& count_compare){
     NoOFCompare* noc = nullptr;
 	int n = arr.size();
 	int u = 0; //is the max value
@@ -60,7 +60,7 @@ void AM::Parameter_Of_Sorting_Comparison(List arr,std::string sort_method, long 
 	else if (sort_method == "merge-sort")
 		return noc->Merge_sort(arr, 0, n - 1,count_compare);
 	else if (sort_method == "quick-sort")
-		return noc->Quick_sort(arr, 0, n - 1,count_compare);
+		return noc->Quick_sort(arr, count_compare);
 	else if (sort_method == "counting-sort")
 		return noc->Counting_sort(arr, u,count_compare);
 	else if (sort_method == "radix-sort")
@@ -69,8 +69,8 @@ void AM::Parameter_Of_Sorting_Comparison(List arr,std::string sort_method, long 
 		return noc->Flash_sort(arr,count_compare);
 }
 
-long long int AM::Number_Of_Comparisons(List arr, std::string sort_method){
-    long long int count_compare = 0;
+long int AM::Number_Of_Comparisons(List arr, std::string sort_method){
+    long int count_compare = 0;
     //Calculate the number of comparisons of sort follow sort_method
     Parameter_Of_Sorting_Comparison(arr,sort_method, count_compare);
     return count_compare;
@@ -125,15 +125,15 @@ void AM::Input_order(List& arr, int argc, char** argv){
     }
     else if(strcmp(order,"-nsorted") == 0){
         std::cout<<"nearly sorted "<<std::endl;
-        datatype = 1;
+        datatype = 3;
     }
     else if(strcmp(order,"-sorted") == 0){
         std::cout<<"sorted "<<std::endl;
-        datatype = 2;
+        datatype = 1;
     }
     else if(strcmp(order,"-rev") == 0){
         std::cout<<"reverse sorted "<<std::endl;
-        datatype = 3;
+        datatype = 2;
     }
     //use datatype to execute a suitable function
     data->GenerateData(arr,n,datatype);
@@ -222,9 +222,9 @@ void AM::Command_3(int argc, char** argv){
 
         std::cout<<"\nInput order: ";
         if(i == 0) std::cout<<"randomized "<<std::endl;
-        else if(i == 1) std::cout<<"nearly sorted "<<std::endl;
-        else if(i == 2) std::cout<<"sorted"<<std::endl;
-        else std::cout<<"reverse sorted"<<std::endl;
+        else if(i == 1) std::cout<<"sorted "<<std::endl;
+        else if(i == 2) std::cout<<"reverse sorted"<<std::endl;
+        else std::cout<<"nearly sorted"<<std::endl;
         data->GenerateData(arr,n,i);
 
         std::cout<<"---------------------------"<<std::endl;
