@@ -44,14 +44,14 @@ void NoOFCompare::Bubble_sort(List& arr, unsigned long long &count_compare){
 void NoOFCompare::Shaker_sort(List& arr, unsigned long long &count_compare){
 	int n= arr.size();
 	int i, j, k;
-   	for(i = 0; i < n;) {
-      	for(j = i+1; j < n; j++) {
-         	if(arr[j] < arr[j-1])
+   	for(i = 0; ++count_compare && i < n;) {
+      	for(j = i+1;++count_compare &&  j < n; j++) {
+         	if(++count_compare && arr[j] < arr[j-1])
             	std::swap(arr[j], arr[j-1]);
       	}	
       	n--;
-      	for(k = n-1; k > i; k--) {
-         	if(arr[k] < arr[k-1])
+      	for(k = n-1; ++count_compare && k > i; k--) {
+         	if(++count_compare && arr[k] < arr[k-1])
             	std::swap(arr[k], arr[k-1]);
       	}
       	i++;
@@ -109,29 +109,51 @@ void NoOFCompare::Heap_sort(List& arr, unsigned long long &count_compare){
 }
 
 void NoOFCompare::merge(List& arr, int first, int mid, int last, unsigned long long &count_compare){
-	int first1 = first, last1 = mid; // The first subarray
-	int first2 = mid + 1, last2 = last; // The second subarray
-	// Copy the smaller element into the temp array
-	int tempArr[MAX_SIZE]; // Temporary array
-	int index = first1; // Next available location in tempArr
-	while ((first1 <= last1) && (first2 <= last2)) {
-		// At this point, tempArr[first..index-1] is in order
-		if (arr[first1] <= arr[first2])
-			tempArr[index++] = arr[first1++];
-		else
-			tempArr[index++] = arr[first2++];
-
-	}
-	while (first1 <= last1) // Finish the first subarray, if necessary
-		tempArr[index++] = arr[first1++];
-	while (first2 <= last2) // Finish the second subarray, if necessary
-		tempArr[index++] = arr[first2++];
-	// Copy the result back into the original array
-	for (index = first; index <= last; ++index)
-		arr[index] = tempArr[index];
+	int subArrayOne = mid - first + 1;
+    int subArrayTwo = last - mid;
+ 
+    // Create temp arrays
+    int *leftArray = new int[subArrayOne], *rightArray = new int[subArrayTwo];
+ 
+    // Copy data to temp arrays leftArray[] and rightArray[]
+    for (int i = 0; ++count_compare && i < subArrayOne; i++)
+        leftArray[i] = arr[first + i];
+    for (int j = 0; ++count_compare && j < subArrayTwo; j++)
+        rightArray[j] = arr[mid + 1 + j];
+ 
+    int indexOfSubArrayOne = 0, // Initial index of first sub-array
+        indexOfSubArrayTwo = 0; // Initial index of second sub-array
+    int indexOfMergedArray = first; // Initial index of merged array
+ 
+    // Merge the temp arrays back into array[left..right]
+    while (++count_compare && indexOfSubArrayOne < subArrayOne && ++count_compare && indexOfSubArrayTwo < subArrayTwo) {
+        if (++count_compare && leftArray[indexOfSubArrayOne] <= rightArray[indexOfSubArrayTwo]) {
+            arr[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
+            indexOfSubArrayOne++;
+        }
+        else {
+            arr[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
+            indexOfSubArrayTwo++;
+        }
+        indexOfMergedArray++;
+    }
+    // Copy the remaining elements of
+    // left[], if there are any
+    while (++count_compare && indexOfSubArrayOne < subArrayOne) {
+        arr[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
+        indexOfSubArrayOne++;
+        indexOfMergedArray++;
+    }
+    // Copy the remaining elements of
+    // right[], if there are any
+    while (++count_compare && indexOfSubArrayTwo < subArrayTwo) {
+        arr[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
+        indexOfSubArrayTwo++;
+        indexOfMergedArray++;
+    }
 }
 void NoOFCompare::Merge_sort(List& arr, int first, int last, unsigned long long &count_compare){
-	if (first < last) {
+	if (++count_compare && first < last) {
 		int mid = (first + last) / 2;  // Index of midpoint
 		Merge_sort(arr, first, mid, count_compare); // Sort left half
 		Merge_sort(arr, mid + 1, last, count_compare); // Sort right half

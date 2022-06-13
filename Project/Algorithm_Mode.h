@@ -13,9 +13,15 @@
 
 using List = std::vector<int>;
 
+
 struct AM{
+    //Test
+    /* int get_algorithm(std::string userAlg);
+    func_ptr get_algorithm_address(int alg); */
+
     //Execute suitable function based on sort method which is cmdline argument
     void Parameter_Of_Sorting(List& arr,std::string sort_method);
+
     //Based on sorting algorithm to calculate time of executing function
 	double Running_time(List& arr, std::string sort_method);
 

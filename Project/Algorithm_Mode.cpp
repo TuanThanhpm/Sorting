@@ -2,7 +2,44 @@
 #include "Sorting_Algorithm.h"
 #include "Data_Generator.h"
 
-void AM::Parameter_Of_Sorting(List& arr, std::string sort_method) {
+/* int AM::get_algorithm(std::string sort_method)
+{
+    std::string Algorithms[] = {"selection-sort",
+                           "insertion-sort",
+                           "bubble-sort",
+                           "shaker-sort",
+                           "shell-sort",
+                           "heap-sort",
+                           "merge-sort",
+                           "quick-sort",
+                           "counting-sort",
+                           "radix-sort",
+                           "flash-sort"};
+    for (int i = 0; i < 11; i++)
+        if (sort_method == Algorithms[i])
+            return i;
+
+    return -1;
+}
+
+func_ptr AM::get_algorithm_address(int alg)
+{
+    void (*Algorithms[11])(List&) = {
+        Selection_sort,
+        Insertion_sort,
+        Bubble_sort,
+        Shaker_sort,
+        Shell_sort,
+        Heap_sort,
+        Merge_sort,
+        Quick_sort,
+        Counting_sort,
+        Radix_sort,
+        Flash_sort
+	};
+    return Algorithms[alg];
+} */
+/* void AM::Parameter_Of_Sorting(List& arr, std::string sort_method) {
 	Sorting* s = nullptr;
 	int n = arr.size();
 	int u = (n< RAND_MAX) ? n : RAND_MAX; //is the max value
@@ -32,9 +69,11 @@ void AM::Parameter_Of_Sorting(List& arr, std::string sort_method) {
         std::cout<<"Unknown sort method"<<std::endl;
         exit(0);
     }
-}
+} */
 
 double AM::Running_time(List& arr, std::string sort_method) {
+    Sorting* s = nullptr;
+    func_ptr funct = s->get_algorithm_address(s->get_algorithm(sort_method));
     //https://helpex.vn/question/do-thoi-gian-thuc-thi-cua-mot-ham-trong-c-60939b17f45eca37f4be15a3
 	using std::chrono::high_resolution_clock;
 	using std::chrono::duration_cast;
@@ -42,7 +81,8 @@ double AM::Running_time(List& arr, std::string sort_method) {
 	using std::chrono::milliseconds;
 
 	auto t1 = high_resolution_clock::now();
-	Parameter_Of_Sorting(arr, sort_method);
+	//Parameter_Of_Sorting(arr, sort_method);
+	funct(arr);
 	auto t2 = high_resolution_clock::now();
 
 	/* Getting number of milliseconds as a double. */

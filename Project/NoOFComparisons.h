@@ -4,7 +4,7 @@
 #include <vector>
 #include <stack>
 
-#define MAX_SIZE 10000
+#define MAX_SIZE 1000000
 using List = std::vector<int>;
 
 struct NoOFCompare {

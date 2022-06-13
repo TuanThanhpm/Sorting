@@ -1,6 +1,44 @@
 #include "Sorting_Algorithm.h"
 
-//dinh nghia cac ham sort trong nay
+
+int Sorting::get_algorithm(std::string sort_method)
+{
+    std::string Algorithms[] = {"selection-sort",
+                           "insertion-sort",
+                           "bubble-sort",
+                           "shaker-sort",
+                           "shell-sort",
+                           "heap-sort",
+                           "merge-sort",
+                           "quick-sort",
+                           "counting-sort",
+                           "radix-sort",
+                           "flash-sort"};
+    for (int i = 0; i < 11; i++)
+        if (sort_method == Algorithms[i])
+            return i;
+
+    return -1;
+}
+
+func_ptr Sorting::get_algorithm_address(int alg)
+{
+    void (*Algorithms[11])(List&) = {
+        Selection_sort,
+        Insertion_sort,
+        Bubble_sort,
+        Shaker_sort,
+        Shell_sort,
+        Heap_sort,
+        Merge_sort,
+        Quick_sort,
+        Counting_sort,
+        Radix_sort,
+        Flash_sort
+	};
+    return Algorithms[alg];
+}
+
 void Sorting::Selection_sort(List& arr) {
 	int n = arr.size();
 	for (int i = 0; i < n - 1; ++i) {
@@ -105,37 +143,63 @@ void Sorting::Heap_sort(List& arr){
 }
 
 void Sorting::merge(List& arr, int first, int mid, int last){
-	int first1 = first, last1 = mid; // The first subarray
-	int first2 = mid + 1, last2 = last; // The second subarray
-	// Copy the smaller element into the temp array
-	int tempArr[MAX_SIZE]; // Temporary array
-	int index = first1; // Next available location in tempArr
-	while ((first1 <= last1) && (first2 <= last2)) {
-		// At this point, tempArr[first..index-1] is in order
-		if (arr[first1] <= arr[first2])
-			tempArr[index++] = arr[first1++];
-		else
-			tempArr[index++] = arr[first2++];
-
-	}
-	while (first1 <= last1) // Finish the first subarray, if necessary
-		tempArr[index++] = arr[first1++];
-	while (first2 <= last2) // Finish the second subarray, if necessary
-		tempArr[index++] = arr[first2++];
-	// Copy the result back into the original array
-	for (index = first; index <= last; ++index)
-		arr[index] = tempArr[index];
+	int subArrayOne = mid - first + 1;
+    int subArrayTwo = last - mid;
+ 
+    // Create temp arrays
+    int *leftArray = new int[subArrayOne], *rightArray = new int[subArrayTwo];
+ 
+    // Copy data to temp arrays leftArray[] and rightArray[]
+    for (int i = 0; i < subArrayOne; i++)
+        leftArray[i] = arr[first + i];
+    for (int j = 0; j < subArrayTwo; j++)
+        rightArray[j] = arr[mid + 1 + j];
+ 
+    int indexOfSubArrayOne = 0, // Initial index of first sub-array
+        indexOfSubArrayTwo = 0; // Initial index of second sub-array
+    int indexOfMergedArray = first; // Initial index of merged array
+ 
+    // Merge the temp arrays back into array[left..right]
+    while (indexOfSubArrayOne < subArrayOne && indexOfSubArrayTwo < subArrayTwo) {
+        if (leftArray[indexOfSubArrayOne] <= rightArray[indexOfSubArrayTwo]) {
+            arr[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
+            indexOfSubArrayOne++;
+        }
+        else {
+            arr[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
+            indexOfSubArrayTwo++;
+        }
+        indexOfMergedArray++;
+    }
+    // Copy the remaining elements of
+    // left[], if there are any
+    while (indexOfSubArrayOne < subArrayOne) {
+        arr[indexOfMergedArray] = leftArray[indexOfSubArrayOne];
+        indexOfSubArrayOne++;
+        indexOfMergedArray++;
+    }
+    // Copy the remaining elements of
+    // right[], if there are any
+    while (indexOfSubArrayTwo < subArrayTwo) {
+        arr[indexOfMergedArray] = rightArray[indexOfSubArrayTwo];
+        indexOfSubArrayTwo++;
+        indexOfMergedArray++;
+    }
 }
-void Sorting::Merge_sort(List& arr, int first, int last){
+void Sorting::merge_sort(List& arr, int first, int last){
 	if (first < last) {
 		int mid = (first + last) / 2; // Index of midpoint
-		Merge_sort(arr, first, mid); // Sort left half
-		Merge_sort(arr, mid + 1, last); // Sort right half
+		merge_sort(arr, first, mid); // Sort left half
+		merge_sort(arr, mid + 1, last); // Sort right half
 		merge(arr, first, mid, last); // Merge the two halves
 	}
 }
 
-void Sorting::Quick_sort(List& arr, int first, int last) {
+void Sorting::Merge_sort(List& arr){
+	merge_sort( arr, 0, arr.size() - 1);
+}
+
+void Sorting::quick_sort(List& arr, int first, int last) {
 	int pivot = arr[(first + last) / 2];
 	int i = first, j = last;
 	do {
@@ -146,11 +210,15 @@ void Sorting::Quick_sort(List& arr, int first, int last) {
 			i++; j--;
 		}
 	} while (i < j);
-	if (first < j) Quick_sort(arr, first, j);
-	if (i < last) Quick_sort(arr, i, last);
+	if (first < j) quick_sort(arr, first, j);
+	if (i < last) quick_sort(arr, i, last);
 }
 
-void Sorting::Counting_sort(List& arr, int u){
+void Sorting::Quick_sort(List& arr) {
+	quick_sort(arr,0,arr.size() - 1);
+}
+
+void Sorting::counting_sort(List& arr, int u){
 	int *output = new int [arr.size()];  
     int *count = new int [u + 1] {0}, i; 
 
@@ -171,6 +239,13 @@ void Sorting::Counting_sort(List& arr, int u){
 	delete []output, count;
 
 }
+
+void Sorting::Counting_sort(List& arr){
+	int n=arr.size();
+	int u = (n< RAND_MAX) ? n : RAND_MAX; //is the max value
+	counting_sort(arr,u);
+}
+
 
 void Sorting::Radix_sort(List& arr){
 	int n = arr.size();
