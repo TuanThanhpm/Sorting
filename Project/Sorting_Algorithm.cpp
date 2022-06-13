@@ -56,7 +56,22 @@ void Sorting::Shaker_sort(List& arr){
    	}
 }
 
-void Sorting::Shell_sort(List& arr){}
+void Sorting::Shell_sort(List& arr){
+	int n = arr.size();
+	for (int gap = n/2; gap > 0; gap /= 2)
+    {
+        for (int i = gap; i < n; i += 1)
+        {
+            int temp = arr[i];
+            int j = i;           
+            while (j >= gap && arr[j - gap] > temp) {
+                arr[j] = arr[j - gap];
+				j-= gap;
+			}
+            arr[j] = temp;
+        }
+    }
+}
 
 void Sorting::heapRebuild(int start, List& arr, int n){
 	int leftChild = 2 * start + 1; // A left child must exist
@@ -120,64 +135,40 @@ void Sorting::Merge_sort(List& arr, int first, int last){
 	}
 }
 
-int Sorting::partition(List& arr, int start, int end) {
-    int pivot = arr[start];
-
-    int count = 0;
-    for (int i = start + 1; i <= end; i++) {
-        if (arr[i] <= pivot) {
-            count++;
-        }
-    }
-
-    int pivotIndex = start + count;
-    std::swap(arr[pivotIndex], arr[start]);
-
-    int i = start, j = end;
-
-    while (i < pivotIndex && j > pivotIndex) {
-        while (arr[i] <= pivot) {
-            i++;
-        }
-
-        while (arr[j] > pivot) {
-            j--;
-        }
-
-        if (i < pivotIndex && j > pivotIndex) {
-            std::swap(arr[i++], arr[j--]);
-        }
-    }
-
-    return pivotIndex;
-}
-void Sorting::Quick_sort(List& arr){
-	std::stack<int> range;
-
-    range.push(0);
-    range.push(static_cast<int>(arr.size() - 1));
-
-    while (!range.empty()) {
-        int end = range.top();
-        range.pop();
-        int start = range.top();
-        range.pop();
-
-        int pivot = partition(arr, start, end);
-
-        if (pivot - 1 > start) {
-            range.push(start);
-            range.push(pivot - 1);
-        }
-
-        if (pivot + 1 < end) {
-            range.push(pivot + 1);
-            range.push(end);
-        }
-    }
+void Sorting::Quick_sort(List& arr, int first, int last) {
+	int pivot = arr[(first + last) / 2];
+	int i = first, j = last;
+	do {
+		while (arr[i] < pivot) i++;
+		while (arr[j] > pivot) j--;
+		if (i <= j) {
+			std::swap(arr[i], arr[j]);
+			i++; j--;
+		}
+	} while (i < j);
+	if (first < j) Quick_sort(arr, first, j);
+	if (i < last) Quick_sort(arr, i, last);
 }
 
 void Sorting::Counting_sort(List& arr, int u){
+	int *output = new int [arr.size()];  
+    int *count = new int [u + 1] {0}, i; 
+
+    for (i = 0; i < arr.size(); ++i) 
+        ++count[arr[i]]; 
+
+    for (i = 1; i <= u; ++i) 
+        count[i] += count[i - 1]; 
+  
+    for (i = 0; i < arr.size(); ++i) { 
+        output[count[arr[i]] - 1] = arr[i]; 
+        --count[arr[i]]; 
+    } 
+
+    for (i = 0; i < arr.size(); ++i) 
+        arr[i] = output[i]; 
+
+	delete []output, count;
 
 }
 

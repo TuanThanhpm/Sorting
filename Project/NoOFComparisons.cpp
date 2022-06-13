@@ -1,6 +1,6 @@
 #include "NoOFComparisons.h"
 
-void NoOFCompare::Selection_sort(List& arr, long int &count_compare){
+void NoOFCompare::Selection_sort(List& arr, unsigned long long &count_compare){
     int n = arr.size(); 
 
      // int i=0
@@ -18,7 +18,7 @@ void NoOFCompare::Selection_sort(List& arr, long int &count_compare){
 	}
 }
 
-void NoOFCompare::Insertion_sort(List& arr, long int &count_compare){
+void NoOFCompare::Insertion_sort(List& arr, unsigned long long &count_compare){
 	int n=arr.size();
 	for (int i = 1; ++count_compare && i < n; ++i){
 	// Find the right position in the sorted region arr[0..i-1]
@@ -33,7 +33,7 @@ void NoOFCompare::Insertion_sort(List& arr, long int &count_compare){
 	}
 }
 
-void NoOFCompare::Bubble_sort(List& arr, long int &count_compare){
+void NoOFCompare::Bubble_sort(List& arr, unsigned long long &count_compare){
 	int n = arr.size();
 	for (int i = 0; ++count_compare && i < n - 1; i++)
 		for (int j = n - 1; ++count_compare && j > i; j--)
@@ -41,7 +41,7 @@ void NoOFCompare::Bubble_sort(List& arr, long int &count_compare){
 				std::swap(arr[j], arr[j - 1]);
 }
 
-void NoOFCompare::Shaker_sort(List& arr, long int &count_compare){
+void NoOFCompare::Shaker_sort(List& arr, unsigned long long &count_compare){
 	int n= arr.size();
 	int i, j, k;
    	for(i = 0; i < n;) {
@@ -58,40 +58,57 @@ void NoOFCompare::Shaker_sort(List& arr, long int &count_compare){
    	}
 }
 
-void NoOFCompare::Shell_sort(List& arr, long int &count_compare){}
+void NoOFCompare::Shell_sort(List& arr, unsigned long long &count_compare){
+	int n = arr.size();
+	for (int gap = n/2; ++count_compare && gap > 0; gap /= 2)
+    {
+        for (int i = gap; ++count_compare && i < n; i += 1)
+        {
+            int temp = arr[i];
+            int j = i;           
+            while ((++count_compare && j >= gap) && (++count_compare && arr[j - gap] > temp)) {
+                arr[j] = arr[j - gap];
+				j-= gap;
+			}
+            arr[j] = temp;
+        }
+    }
+}
 
-void NoOFCompare::heapRebuild(int start, List& arr, int n, long int &count_compare){
+
+void NoOFCompare::heapRebuild(int start, List& arr, int n, unsigned long long &count_compare){
 	int leftChild = 2 * start + 1; // A left child must exist
-	if (leftChild >= n) return;
+	if (++count_compare && leftChild >= n) return;
 	int largerChild = leftChild; // Make assumption about larger child
 	int rightChild = 2 * start + 2; // A right child might not exist
-	if (rightChild < n){ // Whether a right child exists
-		// A right child exists; check whether it is larger
-		if (arr[rightChild] > arr[largerChild])
+	if (++count_compare && rightChild < n) { // Whether a right child exists
+	// A right child exists; check whether it is larger
+		if (++count_compare && arr[rightChild] > arr[largerChild])
 			largerChild = rightChild; // Assumption was wrong
 
 	}
 	// If arr[start] is smaller than the larger child, swap values
-	if (arr[start] < arr[largerChild]){
+	if (++count_compare && arr[start] < arr[largerChild]) {
 		std::swap(arr[largerChild], arr[start]);
 		heapRebuild(largerChild, arr, n, count_compare); // Recursion at that child
 	}
 }
-void NoOFCompare::Heap_sort(List& arr, long int &count_compare){
+void NoOFCompare::Heap_sort(List& arr, unsigned long long &count_compare){
 	int n=arr.size();
 	// Build initial heap
-	for (int index = (n - 1) / 2; index >= 0; index--)
+	for (int index = (n - 1) / 2; ++count_compare && index >= 0; index--) 
 		heapRebuild(index, arr, n, count_compare);
+	
 	std::swap(arr[0], arr[n - 1]); // swap the largest element to the end
 	int heapSize = n - 1; // Heap region size decreases by 1
-	while (heapSize > 1) {
+	while (++count_compare && heapSize > 1) {
 		heapRebuild(0, arr, heapSize, count_compare);
 		heapSize--;
 		std::swap(arr[0], arr[heapSize]);
 	}
 }
 
-void NoOFCompare::merge(List& arr, int first, int mid, int last, long int &count_compare){
+void NoOFCompare::merge(List& arr, int first, int mid, int last, unsigned long long &count_compare){
 	int first1 = first, last1 = mid; // The first subarray
 	int first2 = mid + 1, last2 = last; // The second subarray
 	// Copy the smaller element into the temp array
@@ -113,7 +130,7 @@ void NoOFCompare::merge(List& arr, int first, int mid, int last, long int &count
 	for (index = first; index <= last; ++index)
 		arr[index] = tempArr[index];
 }
-void NoOFCompare::Merge_sort(List& arr, int first, int last, long int &count_compare){
+void NoOFCompare::Merge_sort(List& arr, int first, int last, unsigned long long &count_compare){
 	if (first < last) {
 		int mid = (first + last) / 2;  // Index of midpoint
 		Merge_sort(arr, first, mid, count_compare); // Sort left half
@@ -122,67 +139,44 @@ void NoOFCompare::Merge_sort(List& arr, int first, int last, long int &count_com
 	}
 }
 
-int NoOFCompare::partition(List arr, int start, int end, long int& count_compare)
-{
-    int pivot = arr[start];
-
-    int count = 0;
-    for (int i = start + 1; ++count_compare && i <= end; i++) {
-        if (++count_compare && arr[i] <= pivot) {
-            count++;
-        }
-    }
-
-    int pivotIndex = start + count;
-    std::swap(arr[pivotIndex], arr[start]);
-
-    int i = start, j = end;
-
-    while (++count_compare && i < pivotIndex && ++count_compare && j > pivotIndex) {
-        while (++count_compare && arr[i] <= pivot) {
-            i++;
-        }
-
-        while (++count_compare && arr[j] > pivot) {
-            j--;
-        }
-
-        if (++count_compare && i < pivotIndex && ++count_compare && j > pivotIndex) {
-            std::swap(arr[i++], arr[j--]);
-        }
-    }
-
-    return pivotIndex;
-}
-void NoOFCompare::Quick_sort(List& arr,long int &count_compare){
-	std::stack<int> range;
-
-    range.push(0);
-    range.push(static_cast<int>(arr.size() - 1));
-
-    while (++count_compare && !range.empty()) {
-        int end = range.top();
-        range.pop();
-        int start = range.top();
-        range.pop();
-
-        int pivot = partition(arr, start, end,count_compare);
-
-        if (++count_compare && pivot - 1 > start) {
-            range.push(start);
-            range.push(pivot - 1);
-        }
-
-        if (++count_compare && pivot + 1 < end) {
-            range.push(pivot + 1);
-            range.push(end);
-        }
-    }
+void NoOFCompare::Quick_sort(List& arr, int first, int last, unsigned long long& count_compare) {
+	int pivot = arr[(first + last) / 2];
+	int i = first, j = last;
+	do {
+		while (++count_compare && arr[i] < pivot) i++;
+		while (++count_compare && arr[j] > pivot) j--;
+		if (++count_compare && i <= j) {
+			std::swap(arr[i], arr[j]);
+			i++; j--;
+		}
+	} while (++count_compare && i < j);
+	if (++count_compare && first < j) Quick_sort(arr, first, j, count_compare);
+	if (++count_compare && i < last) Quick_sort(arr, i, last, count_compare);
 }
 
-void NoOFCompare::Counting_sort(List& arr, int u, long int &count_compare){}
+void NoOFCompare::Counting_sort(List& arr, int u, unsigned long long &count_compare){
+	int *output = new int [arr.size()];  
+    int *count = new int [u + 1] {0}, i; 
 
-void NoOFCompare::Radix_sort(List& arr, long int &count_compare){
+    for (i = 0; ++count_compare && i < arr.size(); ++i) 
+        ++count[arr[i]]; 
+
+    for (i = 1; ++count_compare && i <= u; ++i) 
+        count[i] += count[i - 1]; 
+  
+    for (i = 0; ++count_compare && i < arr.size(); ++i) { 
+        output[count[arr[i]] - 1] = arr[i]; 
+        --count[arr[i]]; 
+    } 
+
+    for (i = 0; ++count_compare && i < arr.size(); ++i) 
+        arr[i] = output[i]; 
+
+	delete []output, count;
+}
+
+
+void NoOFCompare::Radix_sort(List& arr, unsigned long long &count_compare){
     int n = arr.size(); 
 	int max_val = arr[0]; // get maximum value in the array
 	for (int i = 1; ++count_compare && i < n; ++i)
@@ -225,6 +219,6 @@ void NoOFCompare::Radix_sort(List& arr, long int &count_compare){
 	}
 }
 
-void NoOFCompare::Flash_sort(List& arr, long int &count_compare){
+void NoOFCompare::Flash_sort(List& arr, unsigned long long &count_compare){
 
 }

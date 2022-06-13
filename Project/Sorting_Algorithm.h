@@ -25,8 +25,7 @@ struct Sorting {
 	void merge(List& arr, int first, int mid, int last);
 	void Merge_sort(List& arr, int first, int last);
 
-	int partition(List& arr, int start, int end);
-	void Quick_sort(List& arr);
+	void Quick_sort(List& arr, int first, int last);
 
 	void Counting_sort(List& arr, int u);
 
