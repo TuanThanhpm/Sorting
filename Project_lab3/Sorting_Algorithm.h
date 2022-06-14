@@ -7,10 +7,8 @@
 //Tuong tu typedef struct 
 using List = std::vector<int>;
 
-
 struct Sorting {
 	
-
 	void Selection_sort(List& arr);
 
 	void Insertion_sort(List& arr);
@@ -25,17 +23,11 @@ struct Sorting {
 	void Heap_sort(List& arr);
 
 	void merge(List& arr, int first, int mid, int last);
-	void merge_sort(List& arr, int first, int last);
-	//typedef merge-sort function
-	void Merge_sort(List& arr);
+	void Merge_sort(List& arr, int first, int last);
 
-	void quick_sort(List& arr, int first, int last);
-	//typedef quick_sort function
-	void Quick_sort(List& arr);
+	void Quick_sort(List& arr, int first, int last);
 
-	void counting_sort(List& arr, int u);
-	//typedef quick_sort function
-	void Counting_sort(List& arr);
+	void Counting_sort(List& arr, int u);
 
 	void Radix_sort(List& arr);
 	

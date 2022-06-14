@@ -2,10 +2,8 @@
 #include <string>
 #include <cstring>
 #include <vector>
-#include <ctime>
-#include <time.h>
+#include <string.h>
 #include <stdlib.h>
-#include <iostream>
 #include <fstream>
 #include <chrono>
 #include "Sorting_Algorithm.h"

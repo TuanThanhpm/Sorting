@@ -63,5 +63,6 @@
         "xlocmon": "cpp",
         "xloctime": "cpp",
         "xtree": "cpp"
-    }
+    },
+    "git.ignoreLimitWarning": true
 }

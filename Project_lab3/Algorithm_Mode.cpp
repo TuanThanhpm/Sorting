@@ -35,9 +35,9 @@ void AM::execute_Sorting(List& arr, std::string sort_method, int pos) {
         case 3: s->Shaker_sort(arr); break;
         case 4: s->Shell_sort(arr); break;
         case 5: s->Heap_sort(arr); break;
-        case 6: s->Merge_sort(arr); break;
-        case 7: s->Quick_sort(arr); break;
-        case 8: s->Counting_sort(arr); break;
+        case 6: s->Merge_sort(arr,0,n-1); break;
+        case 7: s->Quick_sort(arr,0,n-1); break;
+        case 8: s->Counting_sort(arr,u); break;
         case 9: s->Radix_sort(arr); break;
         case 10: s->Flash_sort(arr); break;
     }
@@ -153,7 +153,7 @@ void AM::Input_order(List& arr, int argc, char** argv){
 
     //Convert string to cstring
     char * order = new char [s.length()+1];
-    std::strcpy (order, s.c_str());
+    strcpy_s (order,s.length()+1, s.c_str());
 
     //Compare to order to choose datatype 
     int datatype;
@@ -218,7 +218,7 @@ void AM::Given_Input_File(List& arr, int argc, char** argv){
 void AM::Output_parameter(List& arr, std::string s,int argc, char** argv){
     //Convert string to cstring
     char * type = new char [s.length()+1];
-    std::strcpy (type, s.c_str());
+    strcpy_s (type,s.length()+1, s.c_str());
     //get the sort method from cmdline arguments
     std::string sort_method = argv[2];
     if(strcmp(type,"-time") == 0  ){

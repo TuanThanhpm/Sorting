@@ -148,20 +148,17 @@ void Sorting::merge(List& arr, int first, int mid, int last){
         indexOfMergedArray++;
     }
 }
-void Sorting::merge_sort(List& arr, int first, int last){
+void Sorting::Merge_sort(List& arr, int first, int last){
 	if (first < last) {
 		int mid = (first + last) / 2; // Index of midpoint
-		merge_sort(arr, first, mid); // Sort left half
-		merge_sort(arr, mid + 1, last); // Sort right half
+		Merge_sort(arr, first, mid); // Sort left half
+		Merge_sort(arr, mid + 1, last); // Sort right half
 		merge(arr, first, mid, last); // Merge the two halves
 	}
 }
 
-void Sorting::Merge_sort(List& arr){
-	merge_sort( arr, 0, arr.size() - 1);
-}
 
-void Sorting::quick_sort(List& arr, int first, int last) {
+void Sorting::Quick_sort(List& arr, int first, int last) {
 	int pivot = arr[(first + last) / 2];
 	int i = first, j = last;
 	do {
@@ -172,15 +169,12 @@ void Sorting::quick_sort(List& arr, int first, int last) {
 			i++; j--;
 		}
 	} while (i < j);
-	if (first < j) quick_sort(arr, first, j);
-	if (i < last) quick_sort(arr, i, last);
+	if (first < j) Quick_sort(arr, first, j);
+	if (i < last) Quick_sort(arr, i, last);
 }
 
-void Sorting::Quick_sort(List& arr) {
-	quick_sort(arr,0,arr.size() - 1);
-}
 
-void Sorting::counting_sort(List& arr, int u){
+void Sorting::Counting_sort(List& arr, int u){
 	int *output = new int [arr.size()];  
     int *count = new int [u + 1] {0}, i; 
 
@@ -202,11 +196,6 @@ void Sorting::counting_sort(List& arr, int u){
 
 }
 
-void Sorting::Counting_sort(List& arr){
-	int n=arr.size();
-	int u = (n< RAND_MAX) ? n : RAND_MAX; //is the max value
-	counting_sort(arr,u);
-}
 
 
 void Sorting::Radix_sort(List& arr){
