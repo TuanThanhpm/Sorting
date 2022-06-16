@@ -61,10 +61,10 @@ double AM::Running_time(List& arr, std::string sort_method) {
 	execute_Sorting(arr, sort_method, pos);
 	auto t2 = high_resolution_clock::now();
 
-	/* Getting number of milliseconds as a double. */
-	duration<double, std::milli> ms_double = t2 - t1;
+	 /* Getting number of milliseconds as an integer. */
+    auto ms_int = duration_cast<milliseconds>(t2 - t1);
 
-	return ms_double.count();
+	return ms_int.count();
 }
 
 void AM::execute_Sorting_Comparison(List& arr,std::string sort_method,int pos, unsigned long long& count_compare){
